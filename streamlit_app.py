@@ -36,7 +36,7 @@ langchain.debug = True
 st.set_page_config(
     layout= "wide",
     page_icon= "Image.png",
-    page_title= "Publicaciones - CEPAL"
+    page_title= "Agenda Investigación - CEPAL"
 )
 
 
