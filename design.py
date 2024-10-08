@@ -17,7 +17,7 @@ def footer():
         st.markdown(
         """
         <div class="footer">
-            <p>Mapeo Estratégico de conocimiento CEPAL - Julio 2024</p>
+            <p>Mapeo Estratégico de conocimiento CEPAL - Octubre 2024</p>
         </div>
         """,
         unsafe_allow_html=True
