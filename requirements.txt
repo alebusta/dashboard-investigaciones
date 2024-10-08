@@ -1,0 +1,7 @@
+streamlit==1.37.1
+pandas
+plotly
+openpyxl
+numpy
+pyvis
+

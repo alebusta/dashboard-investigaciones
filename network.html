@@ -1,0 +1,265 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 500px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 500px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "blue", "id": "AGENDA 2030 PARA EL DESARROLLO SOSTENIBLE", "label": "AGENDA 2030 PARA EL DESARROLLO SOSTENIBLE", "shape": "dot"}, {"color": "red", "id": "CEPAL", "label": "CEPAL", "shape": "dot"}, {"color": "red", "id": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "label": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "shape": "dot"}, {"color": "red", "id": "Puerto Espa\u00f1a", "label": "Puerto Espa\u00f1a", "shape": "dot"}, {"color": "blue", "id": "AGRICULTURA Y DESARROLLO RURAL", "label": "AGRICULTURA Y DESARROLLO RURAL", "shape": "dot"}, {"color": "red", "id": "M\u00e9xico", "label": "M\u00e9xico", "shape": "dot"}, {"color": "red", "id": "RECURSOS NATURALES", "label": "RECURSOS NATURALES", "shape": "dot"}, {"color": "blue", "id": "ASUNTOS FISCALES", "label": "ASUNTOS FISCALES", "shape": "dot"}, {"color": "red", "id": "DESARROLLO ECON\u00d3MICO", "label": "DESARROLLO ECON\u00d3MICO", "shape": "dot"}, {"color": "blue", "id": "AYUDA PARA EL COMERCIO", "label": "AYUDA PARA EL COMERCIO", "shape": "dot"}, {"color": "red", "id": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "label": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "shape": "dot"}, {"color": "blue", "id": "CADENAS DE VALOR", "label": "CADENAS DE VALOR", "shape": "dot"}, {"color": "blue", "id": "CAMBIO CLIM\u00c1TICO", "label": "CAMBIO CLIM\u00c1TICO", "shape": "dot"}, {"color": "red", "id": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "label": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "shape": "dot"}, {"color": "blue", "id": "CAMBIO ESTRUCTURAL", "label": "CAMBIO ESTRUCTURAL", "shape": "dot"}, {"color": "red", "id": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "label": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "shape": "dot"}, {"color": "blue", "id": "CENSOS DE POBLACI\u00d3N Y VIVIENDA", "label": "CENSOS DE POBLACI\u00d3N Y VIVIENDA", "shape": "dot"}, {"color": "red", "id": "ESTAD\u00cdSTICAS", "label": "ESTAD\u00cdSTICAS", "shape": "dot"}, {"color": "blue", "id": "CIUDADES Y ASENTAMIENTOS HUMANOS", "label": "CIUDADES Y ASENTAMIENTOS HUMANOS", "shape": "dot"}, {"color": "blue", "id": "COMERCIO INTERNACIONAL", "label": "COMERCIO INTERNACIONAL", "shape": "dot"}, {"color": "red", "id": "Brasilia", "label": "Brasilia", "shape": "dot"}, {"color": "blue", "id": "COMERCIO SUR-SUR", "label": "COMERCIO SUR-SUR", "shape": "dot"}, {"color": "blue", "id": "COOPERACI\u00d3N INTERNACIONAL", "label": "COOPERACI\u00d3N INTERNACIONAL", "shape": "dot"}, {"color": "blue", "id": "COVID-19", "label": "COVID-19", "shape": "dot"}, {"color": "blue", "id": "CRECIMIENTO ECON\u00d3MICO", "label": "CRECIMIENTO ECON\u00d3MICO", "shape": "dot"}, {"color": "red", "id": "Revista", "label": "Revista", "shape": "dot"}, {"color": "red", "id": "Washington", "label": "Washington", "shape": "dot"}, {"color": "blue", "id": "DEMOGRAF\u00cdA", "label": "DEMOGRAF\u00cdA", "shape": "dot"}, {"color": "red", "id": "POBLACI\u00d3N Y DESARROLLO", "label": "POBLACI\u00d3N Y DESARROLLO", "shape": "dot"}, {"color": "blue", "id": "DERECHOS HUMANOS", "label": "DERECHOS HUMANOS", "shape": "dot"}, {"color": "red", "id": "ASUNTOS DE G\u00c9NERO", "label": "ASUNTOS DE G\u00c9NERO", "shape": "dot"}, {"color": "blue", "id": "DERECHOS SOCIALES", "label": "DERECHOS SOCIALES", "shape": "dot"}, {"color": "red", "id": "DESARROLLO SOCIAL", "label": "DESARROLLO SOCIAL", "shape": "dot"}, {"color": "blue", "id": "DESARROLLO INCLUSIVO", "label": "DESARROLLO INCLUSIVO", "shape": "dot"}, {"color": "blue", "id": "DESARROLLO INDUSTRIAL", "label": "DESARROLLO INDUSTRIAL", "shape": "dot"}, {"color": "red", "id": "Buenos Aires", "label": "Buenos Aires", "shape": "dot"}, {"color": "blue", "id": "DESARROLLO SOSTENIBLE", "label": "DESARROLLO SOSTENIBLE", "shape": "dot"}, {"color": "blue", "id": "DESARROLLO TERRITORIAL", "label": "DESARROLLO TERRITORIAL", "shape": "dot"}, {"color": "blue", "id": "DESASTRES", "label": "DESASTRES", "shape": "dot"}, {"color": "blue", "id": "DESIGUALDAD", "label": "DESIGUALDAD", "shape": "dot"}, {"color": "blue", "id": "DISTRIBUCI\u00d3N DEL INGRESO", "label": "DISTRIBUCI\u00d3N DEL INGRESO", "shape": "dot"}, {"color": "blue", "id": "ECONOM\u00cdA CIRCULAR", "label": "ECONOM\u00cdA CIRCULAR", "shape": "dot"}, {"color": "blue", "id": "EDUCACI\u00d3N", "label": "EDUCACI\u00d3N", "shape": "dot"}, {"color": "blue", "id": "EMPLEO", "label": "EMPLEO", "shape": "dot"}, {"color": "blue", "id": "ENERG\u00cdA", "label": "ENERG\u00cdA", "shape": "dot"}, {"color": "blue", "id": "ENVEJECIMIENTO", "label": "ENVEJECIMIENTO", "shape": "dot"}, {"color": "blue", "id": "ESTAD\u00cdSTICAS AMBIENTALES", "label": "ESTAD\u00cdSTICAS AMBIENTALES", "shape": "dot"}, {"color": "blue", "id": "ESTAD\u00cdSTICAS ECON\u00d3MICAS", "label": "ESTAD\u00cdSTICAS ECON\u00d3MICAS", "shape": "dot"}, {"color": "blue", "id": "ESTAD\u00cdSTICAS SOCIALES", "label": "ESTAD\u00cdSTICAS SOCIALES", "shape": "dot"}, {"color": "blue", "id": "ESTRATEGIAS EMPRESARIALES", "label": "ESTRATEGIAS EMPRESARIALES", "shape": "dot"}, {"color": "blue", "id": "ESTRATIFICACI\u00d3N Y MOVILIDAD SOCIAL", "label": "ESTRATIFICACI\u00d3N Y MOVILIDAD SOCIAL", "shape": "dot"}, {"color": "blue", "id": "FACILITACI\u00d3N DEL COMERCIO", "label": "FACILITACI\u00d3N DEL COMERCIO", "shape": "dot"}, {"color": "blue", "id": "FECUNDIDAD Y SALUD REPRODUCTIVA", "label": "FECUNDIDAD Y SALUD REPRODUCTIVA", "shape": "dot"}, {"color": "blue", "id": "FINANCIAMIENTO PARA EL DESARROLLO", "label": "FINANCIAMIENTO PARA EL DESARROLLO", "shape": "dot"}, {"color": "blue", "id": "FINANCIAMIENTO Y DEUDA EXTERNA", "label": "FINANCIAMIENTO Y DEUDA EXTERNA", "shape": "dot"}, {"color": "blue", "id": "GESTI\u00d3N DEL CONOCIMIENTO", "label": "GESTI\u00d3N DEL CONOCIMIENTO", "shape": "dot"}, {"color": "blue", "id": "GESTI\u00d3N P\u00daBLICA", "label": "GESTI\u00d3N P\u00daBLICA", "shape": "dot"}, {"color": "blue", "id": "GOBERNANZA DE LOS RECURSOS NATURALES", "label": "GOBERNANZA DE LOS RECURSOS NATURALES", "shape": "dot"}, {"color": "blue", "id": "GOBIERNO ABIERTO", "label": "GOBIERNO ABIERTO", "shape": "dot"}, {"color": "blue", "id": "GOBIERNO DIGITAL", "label": "GOBIERNO DIGITAL", "shape": "dot"}, {"color": "blue", "id": "HUELLA DE CARBONO", "label": "HUELLA DE CARBONO", "shape": "dot"}, {"color": "blue", "id": "IGUALDAD DE G\u00c9NERO", "label": "IGUALDAD DE G\u00c9NERO", "shape": "dot"}, {"color": "blue", "id": "INCLUSI\u00d3N FINANCIERA", "label": "INCLUSI\u00d3N FINANCIERA", "shape": "dot"}, {"color": "blue", "id": "INCLUSI\u00d3N LABORAL", "label": "INCLUSI\u00d3N LABORAL", "shape": "dot"}, {"color": "blue", "id": "INDICADORES DE LOS OBJETIVOS DE DESARROLLO SOSTENIBLE (ODS)", "label": "INDICADORES DE LOS OBJETIVOS DE DESARROLLO SOSTENIBLE (ODS)", "shape": "dot"}, {"color": "blue", "id": "INDICADORES ECON\u00d3MICOS Y PROYECCIONES", "label": "INDICADORES ECON\u00d3MICOS Y PROYECCIONES", "shape": "dot"}, {"color": "blue", "id": "INFANCIA Y ADOLESCENCIA", "label": "INFANCIA Y ADOLESCENCIA", "shape": "dot"}, {"color": "blue", "id": "INFLACI\u00d3N", "label": "INFLACI\u00d3N", "shape": "dot"}, {"color": "blue", "id": "INFRAESTRUCTURA", "label": "INFRAESTRUCTURA", "shape": "dot"}, {"color": "blue", "id": "INNOVACI\u00d3N Y DIVERSIFICACI\u00d3N EXPORTADORA", "label": "INNOVACI\u00d3N Y DIVERSIFICACI\u00d3N EXPORTADORA", "shape": "dot"}, {"color": "blue", "id": "INNOVACI\u00d3N, CIENCIA Y TECNOLOG\u00cdA", "label": "INNOVACI\u00d3N, CIENCIA Y TECNOLOG\u00cdA", "shape": "dot"}, {"color": "blue", "id": "INTEGRACI\u00d3N REGIONAL", "label": "INTEGRACI\u00d3N REGIONAL", "shape": "dot"}, {"color": "blue", "id": "INVERSI\u00d3N", "label": "INVERSI\u00d3N", "shape": "dot"}, {"color": "blue", "id": "LOG\u00cdSTICA Y MOVILIDAD", "label": "LOG\u00cdSTICA Y MOVILIDAD", "shape": "dot"}, {"color": "blue", "id": "MACROECONOM\u00cdA", "label": "MACROECONOM\u00cdA", "shape": "dot"}, {"color": "blue", "id": "MEDIO AMBIENTE", "label": "MEDIO AMBIENTE", "shape": "dot"}, {"color": "blue", "id": "MICRO, PEQUE\u00d1AS Y MEDIANAS EMPRESAS (MIPYME)", "label": "MICRO, PEQUE\u00d1AS Y MEDIANAS EMPRESAS (MIPYME)", "shape": "dot"}, {"color": "blue", "id": "MIGRACI\u00d3N", "label": "MIGRACI\u00d3N", "shape": "dot"}, {"color": "blue", "id": "MIGRACI\u00d3N INTERNACIONAL", "label": "MIGRACI\u00d3N INTERNACIONAL", "shape": "dot"}, {"color": "blue", "id": "MONITOREO DE ACUERDOS INTERNACIONALES/REGIONALES", "label": "MONITOREO DE ACUERDOS INTERNACIONALES/REGIONALES", "shape": "dot"}, {"color": "blue", "id": "MORTALIDAD Y SALUD", "label": "MORTALIDAD Y SALUD", "shape": "dot"}, {"color": "blue", "id": "PARTICIPACI\u00d3N CIUDADANA", "label": "PARTICIPACI\u00d3N CIUDADANA", "shape": "dot"}, {"color": "blue", "id": "PENSIONES", "label": "PENSIONES", "shape": "dot"}, {"color": "blue", "id": "PLANIFICACI\u00d3N", "label": "PLANIFICACI\u00d3N", "shape": "dot"}, {"color": "blue", "id": "POL\u00cdTICA COMERCIAL Y ACUERDOS COMERCIALES", "label": "POL\u00cdTICA COMERCIAL Y ACUERDOS COMERCIALES", "shape": "dot"}, {"color": "blue", "id": "POL\u00cdTICA LABORAL", "label": "POL\u00cdTICA LABORAL", "shape": "dot"}, {"color": "blue", "id": "POL\u00cdTICAS DE CUIDADO", "label": "POL\u00cdTICAS DE CUIDADO", "shape": "dot"}, {"color": "blue", "id": "POL\u00cdTICAS P\u00daBLICAS", "label": "POL\u00cdTICAS P\u00daBLICAS", "shape": "dot"}, {"color": "blue", "id": "POL\u00cdTICAS Y PROGRAMAS SOCIALES", "label": "POL\u00cdTICAS Y PROGRAMAS SOCIALES", "shape": "dot"}, {"color": "blue", "id": "PRECIOS", "label": "PRECIOS", "shape": "dot"}, {"color": "blue", "id": "PRINCIPIO 10 - ACUERDO DE ESCAZ\u00da", "label": "PRINCIPIO 10 - ACUERDO DE ESCAZ\u00da", "shape": "dot"}, {"color": "blue", "id": "PRODUCTIVIDAD", "label": "PRODUCTIVIDAD", "shape": "dot"}, {"color": "blue", "id": "PROSPECTIVA", "label": "PROSPECTIVA", "shape": "dot"}, {"color": "blue", "id": "PROTECCI\u00d3N SOCIAL", "label": "PROTECCI\u00d3N SOCIAL", "shape": "dot"}, {"color": "blue", "id": "PROYECCIONES DEMOGR\u00c1FICAS", "label": "PROYECCIONES DEMOGR\u00c1FICAS", "shape": "dot"}, {"color": "blue", "id": "PUEBLOS IND\u00cdGENAS Y AFRODESCENDIENTES", "label": "PUEBLOS IND\u00cdGENAS Y AFRODESCENDIENTES", "shape": "dot"}, {"color": "blue", "id": "RECURSOS H\u00cdDRICOS", "label": "RECURSOS H\u00cdDRICOS", "shape": "dot"}, {"color": "blue", "id": "REGULACI\u00d3N", "label": "REGULACI\u00d3N", "shape": "dot"}, {"color": "blue", "id": "SALUD", "label": "SALUD", "shape": "dot"}, {"color": "blue", "id": "SECTOR FINANCIERO Y MONETARIO", "label": "SECTOR FINANCIERO Y MONETARIO", "shape": "dot"}, {"color": "blue", "id": "SEGURIDAD ALIMENTARIA Y NUTRICIONAL", "label": "SEGURIDAD ALIMENTARIA Y NUTRICIONAL", "shape": "dot"}, {"color": "blue", "id": "SOCIEDAD DEL CUIDADO", "label": "SOCIEDAD DEL CUIDADO", "shape": "dot"}, {"color": "blue", "id": "TECNOLOG\u00cdAS DE LA INFORMACI\u00d3N Y LAS COMUNICACIONES (TIC)", "label": "TECNOLOG\u00cdAS DE LA INFORMACI\u00d3N Y LAS COMUNICACIONES (TIC)", "shape": "dot"}, {"color": "blue", "id": "TURISMO", "label": "TURISMO", "shape": "dot"}, {"color": "blue", "id": "T\u00c9RMINOS DE INTERCAMBIO", "label": "T\u00c9RMINOS DE INTERCAMBIO", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "AGENDA 2030 PARA EL DESARROLLO SOSTENIBLE", "to": "CEPAL", "width": 0.05}, {"from": "AGENDA 2030 PARA EL DESARROLLO SOSTENIBLE", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.1}, {"from": "AGENDA 2030 PARA EL DESARROLLO SOSTENIBLE", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "AGRICULTURA Y DESARROLLO RURAL", "to": "M\u00e9xico", "width": 0.05}, {"from": "AGRICULTURA Y DESARROLLO RURAL", "to": "RECURSOS NATURALES", "width": 0.1}, {"from": "ASUNTOS FISCALES", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.1}, {"from": "ASUNTOS FISCALES", "to": "M\u00e9xico", "width": 0.1}, {"from": "ASUNTOS FISCALES", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "AYUDA PARA EL COMERCIO", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.05}, {"from": "CADENAS DE VALOR", "to": "RECURSOS NATURALES", "width": 0.05}, {"from": "CAMBIO CLIM\u00c1TICO", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.15}, {"from": "CAMBIO CLIM\u00c1TICO", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.05}, {"from": "CAMBIO CLIM\u00c1TICO", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "CAMBIO ESTRUCTURAL", "to": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "width": 0.05}, {"from": "CENSOS DE POBLACI\u00d3N Y VIVIENDA", "to": "ESTAD\u00cdSTICAS", "width": 0.05}, {"from": "CIUDADES Y ASENTAMIENTOS HUMANOS", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.05}, {"from": "CIUDADES Y ASENTAMIENTOS HUMANOS", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "COMERCIO INTERNACIONAL", "to": "Brasilia", "width": 0.05}, {"from": "COMERCIO INTERNACIONAL", "to": "CEPAL", "width": 0.15}, {"from": "COMERCIO INTERNACIONAL", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.45}, {"from": "COMERCIO INTERNACIONAL", "to": "M\u00e9xico", "width": 0.05}, {"from": "COMERCIO SUR-SUR", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.05}, {"from": "COOPERACI\u00d3N INTERNACIONAL", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.05}, {"from": "COOPERACI\u00d3N INTERNACIONAL", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "COVID-19", "to": "M\u00e9xico", "width": 0.05}, {"from": "COVID-19", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "CRECIMIENTO ECON\u00d3MICO", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.1}, {"from": "CRECIMIENTO ECON\u00d3MICO", "to": "M\u00e9xico", "width": 0.05}, {"from": "CRECIMIENTO ECON\u00d3MICO", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "CRECIMIENTO ECON\u00d3MICO", "to": "Revista", "width": 0.05}, {"from": "CRECIMIENTO ECON\u00d3MICO", "to": "Washington", "width": 0.05}, {"from": "DEMOGRAF\u00cdA", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.2}, {"from": "DERECHOS HUMANOS", "to": "ASUNTOS DE G\u00c9NERO", "width": 0.05}, {"from": "DERECHOS HUMANOS", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "DERECHOS HUMANOS", "to": "Revista", "width": 0.05}, {"from": "DERECHOS SOCIALES", "to": "DESARROLLO SOCIAL", "width": 0.2}, {"from": "DESARROLLO INCLUSIVO", "to": "Revista", "width": 0.05}, {"from": "DESARROLLO INDUSTRIAL", "to": "Buenos Aires", "width": 0.05}, {"from": "DESARROLLO INDUSTRIAL", "to": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "width": 0.1}, {"from": "DESARROLLO SOSTENIBLE", "to": "ASUNTOS DE G\u00c9NERO", "width": 0.05}, {"from": "DESARROLLO SOSTENIBLE", "to": "Brasilia", "width": 0.05}, {"from": "DESARROLLO SOSTENIBLE", "to": "CEPAL", "width": 0.1}, {"from": "DESARROLLO SOSTENIBLE", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.45}, {"from": "DESARROLLO SOSTENIBLE", "to": "M\u00e9xico", "width": 0.1}, {"from": "DESARROLLO SOSTENIBLE", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.1}, {"from": "DESARROLLO SOSTENIBLE", "to": "Puerto Espa\u00f1a", "width": 0.1}, {"from": "DESARROLLO SOSTENIBLE", "to": "Revista", "width": 0.05}, {"from": "DESARROLLO TERRITORIAL", "to": "M\u00e9xico", "width": 0.05}, {"from": "DESARROLLO TERRITORIAL", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.15}, {"from": "DESASTRES", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.05}, {"from": "DESASTRES", "to": "ESTAD\u00cdSTICAS", "width": 0.05}, {"from": "DESASTRES", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.05}, {"from": "DESIGUALDAD", "to": "CEPAL", "width": 0.05}, {"from": "DESIGUALDAD", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.05}, {"from": "DESIGUALDAD", "to": "M\u00e9xico", "width": 0.1}, {"from": "DESIGUALDAD", "to": "Revista", "width": 0.05}, {"from": "DISTRIBUCI\u00d3N DEL INGRESO", "to": "Revista", "width": 0.05}, {"from": "ECONOM\u00cdA CIRCULAR", "to": "CEPAL", "width": 0.05}, {"from": "EDUCACI\u00d3N", "to": "DESARROLLO SOCIAL", "width": 0.3}, {"from": "EDUCACI\u00d3N", "to": "Revista", "width": 0.05}, {"from": "EMPLEO", "to": "CEPAL", "width": 0.05}, {"from": "EMPLEO", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.05}, {"from": "EMPLEO", "to": "DESARROLLO SOCIAL", "width": 0.25}, {"from": "EMPLEO", "to": "ESTAD\u00cdSTICAS", "width": 0.05}, {"from": "EMPLEO", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "ENERG\u00cdA", "to": "Brasilia", "width": 0.05}, {"from": "ENERG\u00cdA", "to": "CEPAL", "width": 0.05}, {"from": "ENERG\u00cdA", "to": "RECURSOS NATURALES", "width": 0.05}, {"from": "ENVEJECIMIENTO", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "ESTAD\u00cdSTICAS AMBIENTALES", "to": "ESTAD\u00cdSTICAS", "width": 0.1}, {"from": "ESTAD\u00cdSTICAS ECON\u00d3MICAS", "to": "ESTAD\u00cdSTICAS", "width": 0.1}, {"from": "ESTAD\u00cdSTICAS SOCIALES", "to": "ESTAD\u00cdSTICAS", "width": 0.15}, {"from": "ESTRATEGIAS EMPRESARIALES", "to": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "width": 0.05}, {"from": "ESTRATEGIAS EMPRESARIALES", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "ESTRATIFICACI\u00d3N Y MOVILIDAD SOCIAL", "to": "DESARROLLO SOCIAL", "width": 0.15}, {"from": "FACILITACI\u00d3N DEL COMERCIO", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.2}, {"from": "FACILITACI\u00d3N DEL COMERCIO", "to": "M\u00e9xico", "width": 0.05}, {"from": "FECUNDIDAD Y SALUD REPRODUCTIVA", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "FINANCIAMIENTO PARA EL DESARROLLO", "to": "Brasilia", "width": 0.05}, {"from": "FINANCIAMIENTO PARA EL DESARROLLO", "to": "CEPAL", "width": 0.05}, {"from": "FINANCIAMIENTO PARA EL DESARROLLO", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.05}, {"from": "FINANCIAMIENTO Y DEUDA EXTERNA", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.05}, {"from": "FINANCIAMIENTO Y DEUDA EXTERNA", "to": "M\u00e9xico", "width": 0.05}, {"from": "FINANCIAMIENTO Y DEUDA EXTERNA", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "GESTI\u00d3N DEL CONOCIMIENTO", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "GESTI\u00d3N P\u00daBLICA", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.1}, {"from": "GESTI\u00d3N P\u00daBLICA", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "GOBERNANZA DE LOS RECURSOS NATURALES", "to": "RECURSOS NATURALES", "width": 0.05}, {"from": "GOBIERNO ABIERTO", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.05}, {"from": "GOBIERNO DIGITAL", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "HUELLA DE CARBONO", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.05}, {"from": "IGUALDAD DE G\u00c9NERO", "to": "ASUNTOS DE G\u00c9NERO", "width": 0.05}, {"from": "IGUALDAD DE G\u00c9NERO", "to": "M\u00e9xico", "width": 0.05}, {"from": "IGUALDAD DE G\u00c9NERO", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "IGUALDAD DE G\u00c9NERO", "to": "Revista", "width": 0.05}, {"from": "INCLUSI\u00d3N FINANCIERA", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.05}, {"from": "INCLUSI\u00d3N LABORAL", "to": "DESARROLLO SOCIAL", "width": 0.05}, {"from": "INDICADORES DE LOS OBJETIVOS DE DESARROLLO SOSTENIBLE (ODS)", "to": "CEPAL", "width": 0.05}, {"from": "INDICADORES DE LOS OBJETIVOS DE DESARROLLO SOSTENIBLE (ODS)", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.05}, {"from": "INDICADORES DE LOS OBJETIVOS DE DESARROLLO SOSTENIBLE (ODS)", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.05}, {"from": "INDICADORES ECON\u00d3MICOS Y PROYECCIONES", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.1}, {"from": "INDICADORES ECON\u00d3MICOS Y PROYECCIONES", "to": "M\u00e9xico", "width": 0.05}, {"from": "INDICADORES ECON\u00d3MICOS Y PROYECCIONES", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "INDICADORES ECON\u00d3MICOS Y PROYECCIONES", "to": "Washington", "width": 0.1}, {"from": "INFANCIA Y ADOLESCENCIA", "to": "DESARROLLO SOCIAL", "width": 0.1}, {"from": "INFANCIA Y ADOLESCENCIA", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "INFLACI\u00d3N", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.1}, {"from": "INFLACI\u00d3N", "to": "M\u00e9xico", "width": 0.05}, {"from": "INFLACI\u00d3N", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "INFRAESTRUCTURA", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.1}, {"from": "INNOVACI\u00d3N Y DIVERSIFICACI\u00d3N EXPORTADORA", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.3}, {"from": "INNOVACI\u00d3N, CIENCIA Y TECNOLOG\u00cdA", "to": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "width": 0.15}, {"from": "INNOVACI\u00d3N, CIENCIA Y TECNOLOG\u00cdA", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "INTEGRACI\u00d3N REGIONAL", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.05}, {"from": "INTEGRACI\u00d3N REGIONAL", "to": "Revista", "width": 0.05}, {"from": "INVERSI\u00d3N", "to": "Revista", "width": 0.05}, {"from": "LOG\u00cdSTICA Y MOVILIDAD", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.35}, {"from": "LOG\u00cdSTICA Y MOVILIDAD", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "MACROECONOM\u00cdA", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "MACROECONOM\u00cdA", "to": "Revista", "width": 0.05}, {"from": "MACROECONOM\u00cdA", "to": "Washington", "width": 0.1}, {"from": "MEDIO AMBIENTE", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.15}, {"from": "MEDIO AMBIENTE", "to": "M\u00e9xico", "width": 0.05}, {"from": "MEDIO AMBIENTE", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "MEDIO AMBIENTE", "to": "Revista", "width": 0.05}, {"from": "MICRO, PEQUE\u00d1AS Y MEDIANAS EMPRESAS (MIPYME)", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.05}, {"from": "MICRO, PEQUE\u00d1AS Y MEDIANAS EMPRESAS (MIPYME)", "to": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "width": 0.05}, {"from": "MIGRACI\u00d3N", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.1}, {"from": "MIGRACI\u00d3N", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "MIGRACI\u00d3N INTERNACIONAL", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "MIGRACI\u00d3N INTERNACIONAL", "to": "Revista", "width": 0.05}, {"from": "MONITOREO DE ACUERDOS INTERNACIONALES/REGIONALES", "to": "CEPAL", "width": 0.05}, {"from": "MONITOREO DE ACUERDOS INTERNACIONALES/REGIONALES", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.05}, {"from": "MONITOREO DE ACUERDOS INTERNACIONALES/REGIONALES", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "MORTALIDAD Y SALUD", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "PARTICIPACI\u00d3N CIUDADANA", "to": "Brasilia", "width": 0.05}, {"from": "PENSIONES", "to": "DESARROLLO SOCIAL", "width": 0.05}, {"from": "PLANIFICACI\u00d3N", "to": "ESTAD\u00cdSTICAS", "width": 0.05}, {"from": "PLANIFICACI\u00d3N", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.1}, {"from": "POL\u00cdTICA COMERCIAL Y ACUERDOS COMERCIALES", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.1}, {"from": "POL\u00cdTICA LABORAL", "to": "DESARROLLO ECON\u00d3MICO", "width": 0.05}, {"from": "POL\u00cdTICAS DE CUIDADO", "to": "ASUNTOS DE G\u00c9NERO", "width": 0.05}, {"from": "POL\u00cdTICAS P\u00daBLICAS", "to": "DESARROLLO SOCIAL", "width": 0.15}, {"from": "POL\u00cdTICAS P\u00daBLICAS", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "POL\u00cdTICAS Y PROGRAMAS SOCIALES", "to": "DESARROLLO SOCIAL", "width": 0.1}, {"from": "POL\u00cdTICAS Y PROGRAMAS SOCIALES", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "PRECIOS", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.05}, {"from": "PRINCIPIO 10 - ACUERDO DE ESCAZ\u00da", "to": "DESARROLLO SOSTENIBLE Y ASENTAMIENTOS HUMANOS", "width": 0.2}, {"from": "PRINCIPIO 10 - ACUERDO DE ESCAZ\u00da", "to": "M\u00e9xico", "width": 0.05}, {"from": "PRODUCTIVIDAD", "to": "Brasilia", "width": 0.05}, {"from": "PRODUCTIVIDAD", "to": "Buenos Aires", "width": 0.15}, {"from": "PRODUCTIVIDAD", "to": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "width": 0.1}, {"from": "PRODUCTIVIDAD", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "PRODUCTIVIDAD", "to": "Revista", "width": 0.05}, {"from": "PROSPECTIVA", "to": "PLANIFICACI\u00d3N PARA EL DESARROLLO", "width": 0.05}, {"from": "PROTECCI\u00d3N SOCIAL", "to": "Brasilia", "width": 0.05}, {"from": "PROTECCI\u00d3N SOCIAL", "to": "DESARROLLO SOCIAL", "width": 0.25}, {"from": "PROTECCI\u00d3N SOCIAL", "to": "M\u00e9xico", "width": 0.1}, {"from": "PROTECCI\u00d3N SOCIAL", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "PROTECCI\u00d3N SOCIAL", "to": "Revista", "width": 0.05}, {"from": "PROYECCIONES DEMOGR\u00c1FICAS", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "PUEBLOS IND\u00cdGENAS Y AFRODESCENDIENTES", "to": "M\u00e9xico", "width": 0.05}, {"from": "PUEBLOS IND\u00cdGENAS Y AFRODESCENDIENTES", "to": "POBLACI\u00d3N Y DESARROLLO", "width": 0.05}, {"from": "RECURSOS H\u00cdDRICOS", "to": "RECURSOS NATURALES", "width": 0.05}, {"from": "RECURSOS NATURALES", "to": "RECURSOS NATURALES", "width": 0.15}, {"from": "REGULACI\u00d3N", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "SALUD", "to": "Brasilia", "width": 0.05}, {"from": "SALUD", "to": "M\u00e9xico", "width": 0.05}, {"from": "SALUD", "to": "RECURSOS NATURALES", "width": 0.05}, {"from": "SECTOR FINANCIERO Y MONETARIO", "to": "M\u00e9xico", "width": 0.05}, {"from": "SECTOR FINANCIERO Y MONETARIO", "to": "Washington", "width": 0.1}, {"from": "SEGURIDAD ALIMENTARIA Y NUTRICIONAL", "to": "RECURSOS NATURALES", "width": 0.05}, {"from": "SOCIEDAD DEL CUIDADO", "to": "ASUNTOS DE G\u00c9NERO", "width": 0.1}, {"from": "SOCIEDAD DEL CUIDADO", "to": "Revista", "width": 0.05}, {"from": "TECNOLOG\u00cdAS DE LA INFORMACI\u00d3N Y LAS COMUNICACIONES (TIC)", "to": "Brasilia", "width": 0.05}, {"from": "TECNOLOG\u00cdAS DE LA INFORMACI\u00d3N Y LAS COMUNICACIONES (TIC)", "to": "Buenos Aires", "width": 0.05}, {"from": "TECNOLOG\u00cdAS DE LA INFORMACI\u00d3N Y LAS COMUNICACIONES (TIC)", "to": "COMERCIO INTERNACIONAL E INTEGRACI\u00d3N", "width": 0.15}, {"from": "TECNOLOG\u00cdAS DE LA INFORMACI\u00d3N Y LAS COMUNICACIONES (TIC)", "to": "DESARROLLO PRODUCTIVO Y EMPRESARIAL", "width": 0.15}, {"from": "TECNOLOG\u00cdAS DE LA INFORMACI\u00d3N Y LAS COMUNICACIONES (TIC)", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "TURISMO", "to": "M\u00e9xico", "width": 0.05}, {"from": "TURISMO", "to": "Puerto Espa\u00f1a", "width": 0.05}, {"from": "T\u00c9RMINOS DE INTERCAMBIO", "to": "Puerto Espa\u00f1a", "width": 0.05}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
