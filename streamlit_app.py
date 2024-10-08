@@ -942,7 +942,7 @@ with chat:
             Ejemplos:
              
 - Lístame las divisiones            
-- Lístame los títulos de las investigaciones de CELADES
+- Lístame los títulos de las investigaciones de CELADE
 - Lístame los títulos de las investigaciones relacionadas con cambio climático y su entidad autora
 - Cuáles son los 10 principales tópicos de las investigaciones
 - Cuáles son las brecha atendidas más abordadas por las investigaciones
