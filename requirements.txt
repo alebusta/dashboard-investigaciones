@@ -7,3 +7,4 @@ pyvis
 langchain==0.2.14
 pydantic==2.8.2
 langchain-experimental==0.0.59
+matplotlib==3.8.0
