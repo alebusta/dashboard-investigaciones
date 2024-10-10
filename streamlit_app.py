@@ -859,7 +859,7 @@ with sectores:
         use_container_width= True
     )
      
-     #sector_df = sectores_div.loc[sectores_div['frecuencia'].idxmax(), 'sectores']
+     # sector_df = sectores_div.loc[sectores_div['frecuencia'].idxmax(), 'sectores']
 
 
           
@@ -869,7 +869,7 @@ with sectores:
 
      sector = df_sectores['sectores'].unique().tolist() # se crea una lista unica de la columna Division
 
-     sectores_selector = st.selectbox('Seleccionar brecha:', sector, index=0) #sector.index(sector_df))
+     sectores_selector = st.selectbox('Seleccionar brecha:', sector, index=0) # sector.index(sector_df))
 
 
      # Crea un contenedor vacío para el dataframe
