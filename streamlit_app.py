@@ -1,9 +1,9 @@
 """
-    File: Publicaciones.py
-    Author: Alejandro Bustamante, Marco Espinoza
+    File: streamlit_app.py
+    Author: Alejandro Bustamante
     Email: alejandro.bustamante@un.org
-        espinozamarco70@gmail.com
-    Date: 30/04/2024
+        
+    Date: 10/10/2024
     Description: Script para visualización de producciones de publicacones CEPAL.
 """
 
@@ -859,7 +859,7 @@ with sectores:
         use_container_width= True
     )
      
-     sector_df = sectores_div.loc[sectores_div['frecuencia'].idxmax(), 'sectores']
+     #sector_df = sectores_div.loc[sectores_div['frecuencia'].idxmax(), 'sectores']
 
 
           
@@ -869,7 +869,7 @@ with sectores:
 
      sector = df_sectores['sectores'].unique().tolist() # se crea una lista unica de la columna Division
 
-     sectores_selector = st.selectbox('Seleccionar brecha:', sector, index=sector.index(sector_df))
+     sectores_selector = st.selectbox('Seleccionar brecha:', sector, index=0) #sector.index(sector_df))
 
 
      # Crea un contenedor vacío para el dataframe
