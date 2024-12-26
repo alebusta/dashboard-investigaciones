@@ -979,8 +979,8 @@ with chat:
         #### create the LLM based on OpenAI's ChatGPT model
         llm = ChatOpenAI(
             temperature=0, 
-            model="gpt-3.5-turbo", 
-            openai_api_key=openai_api_key, 
+            model_name="gpt-3.5-turbo", 
+            api_key=openai_api_key, 
             streaming=True
         )
 
