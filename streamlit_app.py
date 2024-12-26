@@ -900,105 +900,111 @@ with sectores:
         use_container_width= True)
 
 with chat:
-    # widget to upload a file
-    uploaded_file = 'datos_full.csv'#st.file_uploader(
-    #"Upload a csv file, only with comma delimiter",
-    #type=list(file_formats.keys()),
-    #help="Various File formats are Support",
-    #on_change=clear_submit,
-#)
-
-
+    import streamlit as st
+    import pandas as pd
+    from langchain_community.chat_models import ChatOpenAI
+    from langchain.agents import create_pandas_dataframe_agent
+    from langchain.agents.agent_types import AgentType
+    from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
+    
+    # Configuración de la página
+    st.set_page_config(page_title="Chat con Base de Datos", page_icon="🤖")
+    
+    # Cargar el archivo CSV
+    uploaded_file = 'datos_full.csv'  # Reemplaza con tu archivo CSV
+    
     if not uploaded_file:
         st.warning(
             "This app uses LangChain's `PythonAstREPLTool` which is vulnerable to arbitrary code execution. Please use caution in deploying and sharing this app."
         )
-
-    # here the file is constructed
+    
+    # Cargar los datos
     if uploaded_file:
-        df = pd.read_csv(uploaded_file)#load_data(uploaded_file)
+        df = pd.read_csv(uploaded_file)
+    
+        # Convertir columnas problemáticas a tipos compatibles
+        df["Brechas Atendidas"] = df["Brechas Atendidas"].astype(str)
+        df["Sectores Atendidos"] = df["Sectores Atendidos"].astype(str)
+    
+        # Interfaz de usuario
+        st.title("Chat con bases de datos agenda de investigación")
+        st.write("""Este chatbot permite interactuar con la base de datos de agenda de investigación. Esta contiene los siguientes datos:
+    
+    1. Entidad o Division
+    2. Título de Investigación
+    3. Período
+    4. Detalle de Investigación
+    5. Palabras clave
+    6. Decálogo
+    7. Gobernanza y capacidades TOPP
+    8. Sectores impulsores
+    9. Brechas Atendidas
+    10. Sectores Atendidos
+    11. Preguntas Agenda Común
+    12. Tópicos CEPAL
+        """)
+    
+        st.write("""Se recomienda hacer preguntas haciendo mención al o los campos de consulta de manera literal para su mejor funcionamiento
+                 (las divisiones están en siglas).
+                Ejemplos:
+                 
+    - Lístame las divisiones            
+    - Lístame los títulos de las investigaciones de CELADE
+    - Lístame los títulos de las investigaciones relacionadas con cambio climático y su entidad autora
+    - Cuáles son los 10 principales tópicos de las investigaciones
+    - Cuáles son las brecha atendidas más abordadas por las investigaciones
+                """)
 
-        # interface
-
-    st.title("Chat con bases de datos agenda de investigación")
-    st.write("""Este chatbot permite interactuar con la base de datos de agenda de investigación. Esta contiene los siguientes datos,
-
-1. Entidad o Division
-2. Título de Investigación
-3. Período
-4. Detalle de Investigación
-5. Palabras clave
-6. Decálogo
-7. Gobernanza y capacidades TOPP
-8. Sectores impulsores
-9. Brechas Atendidas
-10. Sectores Atendidos
-11. Preguntas Agenda Común
-12. Tópicos CEPAL 
-    """)
-            
-    st.write("""Se recomienda hacer preguntas haciendo mención al o los campos de consulta de manera literal para su mejor funcionamiento
-             (las divisiones están en siglas).
-            Ejemplos:
-             
-- Lístame las divisiones            
-- Lístame los títulos de las investigaciones de CELADE
-- Lístame los títulos de las investigaciones relacionadas con cambio climático y su entidad autora
-- Cuáles son los 10 principales tópicos de las investigaciones
-- Cuáles son las brecha atendidas más abordadas por las investigaciones
-
-
-            """)
-
-    # the viewer should provide own OpeanAI API key
+    # Clave API de OpenAI
     OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
     openai_api_key = OPENAI_API_KEY
-    #st.sidebar.text_input("OpenAI API Key", type="password")
 
-    # add the ability to clear memory
+    # Limpiar la conversación
     if "messages" not in st.session_state or st.button("Limpiar conversación"):
         st.session_state["messages"] = [{"role": "assistant", "content": "Cómo puedo ayudarte?"}]
 
-    # write every message to the session state
+    # Mostrar mensajes anteriores
     for msg in st.session_state.messages:
         st.chat_message(msg["role"]).write(msg["content"])
 
-    # now, the main component
+    # Entrada de chat
     if query := st.chat_input(placeholder="De que tratan estos datos?"):
-        
-        #### when the viewer asks a question in the "chat_input" widget, the question
-        #### goes into the session_state with the role "user" and is being written 
-        #### in the screen
         st.session_state.messages.append({"role": "user", "content": query})
         st.chat_message("user").write(query)
 
         if not openai_api_key:
-            st.info("Please add your OpenAI API key to continue.")
+            st.info("Por favor, añade tu clave API de OpenAI para continuar.")
             st.stop()
 
-        #### create the LLM based on OpenAI's ChatGPT model
+        # Inicializar el modelo de OpenAI
         llm = ChatOpenAI(
-            temperature=0, 
-            model="gpt-3.5-turbo", 
-            openai_api_key=openai_api_key, 
-            streaming=True
+            temperature=0,
+            model="gpt-3.5-turbo",
+            openai_api_key=openai_api_key,
+            streaming=True,
         )
 
-        #### create an agent that connects the LLM with the dataset ("df") and 
-        #### utilizes functionalities from OpenAI
-        pandas_df_agent = create_pandas_dataframe_agent(
-            llm,
-            df,
-            verbose=True,
-            agent_type=AgentType.OPENAI_FUNCTIONS,
-            handle_parsing_errors=True,
-        )
+        # Crear el agente
+        try:
+            pandas_df_agent = create_pandas_dataframe_agent(
+                llm,
+                df,
+                verbose=True,
+                agent_type=AgentType.OPENAI_FUNCTIONS,
+                handle_parsing_errors=True,
+            )
+        except Exception as e:
+            st.error(f"Error al crear el agente: {e}")
+            st.stop()
 
-        #### create the response, add it to the session_state and display it
-        with st.chat_message("assistant"):
-            st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
-            response = pandas_df_agent.run(query)
-            st.session_state.messages.append({"role": "assistant", "content": response})
-            st.write(response)
+        # Generar la respuesta
+        try:
+            with st.chat_message("assistant"):
+                st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
+                response = pandas_df_agent.run(query, callbacks=[st_cb])
+                st.session_state.messages.append({"role": "assistant", "content": response})
+                st.write(response)
+        except Exception as e:
+            st.error(f"Error al generar la respuesta: {e}")
 
 design.footer()
