@@ -950,8 +950,6 @@ with chat:
 
             """)
 
-    os.environ['HTTP_PROXY'] = ''
-    os.environ['HTTPS_PROXY'] = ''
     # the viewer should provide own OpeanAI API key
     OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
     openai_api_key = OPENAI_API_KEY
@@ -981,8 +979,8 @@ with chat:
         #### create the LLM based on OpenAI's ChatGPT model
         llm = ChatOpenAI(
             temperature=0, 
-            model_name="gpt-3.5-turbo", 
-            api_key=openai_api_key, 
+            model="gpt-3.5-turbo", 
+            openai_api_key=openai_api_key, 
             streaming=True
         )
 
