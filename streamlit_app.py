@@ -29,6 +29,10 @@ import langchain
 import matplotlib.pyplot as plt
 langchain.debug = True
 
+# Elimina configuraciones relacionadas con proxies en el entorno
+os.environ.pop("HTTP_PROXY", None)
+os.environ.pop("HTTPS_PROXY", None)
+
 
 
 ####################################
