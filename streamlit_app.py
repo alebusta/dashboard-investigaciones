@@ -992,6 +992,7 @@ with chat:
             verbose=True,
             agent_type=AgentType.OPENAI_FUNCTIONS,
             handle_parsing_errors=True,
+            allow_dangerous_code=True
         )
 
         #### create the response, add it to the session_state and display it
