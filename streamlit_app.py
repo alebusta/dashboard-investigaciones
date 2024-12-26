@@ -29,11 +29,6 @@ import langchain
 import matplotlib.pyplot as plt
 langchain.debug = True
 
-from openai import Configuration, ChatCompletion
-
-configuration = Configuration(proxy=None)
-openai = ChatCompletion(configuration=configuration)
-
 
 
 ####################################
