@@ -22,7 +22,7 @@ import base64
 
 # Librerias para chatbot
 from langchain.agents import AgentType
-from langchain_experimental.agents import create_pandas_dataframe_agent
+#from langchain_experimental.agents import create_pandas_dataframe_agent
 from langchain.callbacks import StreamlitCallbackHandler
 from langchain.chat_models import ChatOpenAI
 import langchain
@@ -904,7 +904,8 @@ with chat:
     import pandas as pd
     from langchain_community.chat_models import ChatOpenAI
     from langchain.agents import create_pandas_dataframe_agent
-    from langchain.agents.agent_types import AgentType
+    #from langchain.agents.agent_types import AgentType
+    from langchain_experimental.agents.create_pandas_dataframe_agent import AgentType
     from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
     
     # Configuración de la página
