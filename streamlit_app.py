@@ -24,7 +24,7 @@ import base64
 from langchain.agents import AgentType
 from langchain_experimental.agents import create_pandas_dataframe_agent
 from langchain.callbacks import StreamlitCallbackHandler
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 import langchain
 import matplotlib.pyplot as plt
 langchain.debug = True
@@ -980,8 +980,7 @@ with chat:
         llm = ChatOpenAI(
             temperature=0, 
             model="gpt-3.5-turbo", 
-            openai_api_key=openai_api_key, 
-            proxies = '',
+            openai_api_key=openai_api_key,
             streaming=True
         )
 
