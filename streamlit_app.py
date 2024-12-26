@@ -950,6 +950,8 @@ with chat:
 
             """)
 
+    os.environ['HTTP_PROXY'] = ''
+    os.environ['HTTPS_PROXY'] = ''
     # the viewer should provide own OpeanAI API key
     OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
     openai_api_key = OPENAI_API_KEY
