@@ -981,7 +981,7 @@ with chat:
             temperature=0, 
             model="gpt-3.5-turbo", 
             openai_api_key=openai_api_key, 
-            proxies = ''
+            proxies = '',
             streaming=True
         )
 
